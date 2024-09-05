@@ -1,8 +1,25 @@
-<div class="container">
+<form class="form-group">
+    <h2>Iniciar Sesion</h2>
     <mat-form-field appearance="outline">
-        <mat-label>Outline form field</mat-label>
-        <input matInput placeholder="Placeholder">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint </mat-hint>
+        <mat-label>Correo Electronico</mat-label>
+        <input matInput placeholder="Ingrese su correo">
+        <mat-icon matSuffix>alternate_email</mat-icon>
     </mat-form-field>
-</div>
+    <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" />
+        <button
+            type="button"  
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+        >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <button class="button" type="submit" mat-stroked-button>Iniciar Sesion</button>
+    <p>o</p>
+    <a class="button" mat-flat-button type="button" href="/registro" >Registrarse</a>
+</form>
