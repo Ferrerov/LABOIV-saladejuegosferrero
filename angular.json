@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "salaDeJuegosFerrero": {
+    "saladejuegosferrero": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "salaDeJuegosFerrero:build:production"
+              "buildTarget": "saladejuegosferrero:build:production"
             },
             "development": {
-              "buildTarget": "salaDeJuegosFerrero:build:development"
+              "buildTarget": "saladejuegosferrero:build:development"
             }
           },
           "defaultConfiguration": "development"
