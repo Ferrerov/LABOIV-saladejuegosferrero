@@ -11,16 +11,19 @@
     align-items: center;
     text-align: center;
     margin: auto;
-    padding: 0%;
 }
 
 .col-3{
     height: 100%;
     text-align: center;
     align-items: center;
-    background-size: cover;  // This ensures the image covers the entire column
-    background-position: center;  // This centers the image in the column
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
+    cursor: pointer;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
 }
 
 #ahorcado{
@@ -34,4 +37,22 @@ background-image: url('https://st2.depositphotos.com/5777248/10551/v/450/deposit
 }
 #juegopropio{
     background-image: url('https://ruibalgames.com/wp-content/uploads/2015/11/juego-15b.jpg');
+}
+
+.fade {
+    opacity:1;
+    -webkit-box-shadow:  0px 7px 10px 1px rgba(0, 0, 0, .7);
+    box-shadow:  0px 5px 10px 1px rgba(0, 0, 0, .7);
+  }
+  
+.fade:hover {
+    opacity:.5;
+    transition:all .5s ease-in-out;
+    -moz-transition:all .5s ease-in-out;
+    -webkit-transition:all .5s ease-in-out;
+}
+
+h2{
+    color: white;
+    font-weight: 500;
 }

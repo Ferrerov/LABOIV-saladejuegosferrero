@@ -4,6 +4,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { Router } from '@angular/router';
+import { Firestore, collection, collectionData,setDoc, DocumentData, doc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   hide = signal(true);
   
-  constructor(private router: Router){
+  constructor(private router: Router, private firestore: Firestore){
   }
 
   clickEvent(event: MouseEvent) {
