@@ -3,6 +3,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,16 @@ import {MatButtonModule} from '@angular/material/button';
 })
 export class LoginComponent {
   hide = signal(true);
+  
+  constructor(private router: Router){
+  }
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  onSubmit(){
+    this.router.navigateByUrl('/home');
   }
 }

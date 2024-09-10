@@ -1,0 +1,22 @@
+.container-fluid{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    height: 80%;
+    width: 80%;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    padding: 0%;
+}
+
+.col-3{
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+}
