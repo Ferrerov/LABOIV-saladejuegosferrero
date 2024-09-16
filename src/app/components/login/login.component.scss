@@ -8,8 +8,25 @@ form{
 
 mat-form-field{
     width: 300px;
+    padding: 5px;
 }
 .button{
     width: 300px;
     margin: auto !important;
+}
+
+#errorFirebase{
+    padding-top: 5px;
+}
+
+#ultimo{
+    padding-bottom: 40px;
+}
+
+.row{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }

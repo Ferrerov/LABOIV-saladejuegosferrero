@@ -39,7 +39,7 @@ export class RegistroComponent {
     event.stopPropagation();
   }
 
-  async onSubmit(){
+  onSubmit() : void{
     const rawForm = this.form.getRawValue();
     this.authService.register(rawForm.correo, rawForm.usuario ,rawForm.contrasena)
     .subscribe({
