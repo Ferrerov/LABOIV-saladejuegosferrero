@@ -43,7 +43,7 @@ export class RegistroComponent {
     const rawForm = this.form.getRawValue();
     this.authService.register(rawForm.correo, rawForm.usuario ,rawForm.contrasena)
     .subscribe({
-      next: () => {this.router.navigateByUrl('/login');},
+      next: () => {this.router.navigateByUrl('/home');},
       error: (err) => {
         console.log(err.code);
         switch (err.code) {

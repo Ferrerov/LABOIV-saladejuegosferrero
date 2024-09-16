@@ -3,6 +3,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { Firestore, collection, collectionData,setDoc, DocumentData, doc } from '@angular/fire/firestore';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -11,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule], 
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule, MatCardModule], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,5 +50,9 @@ export class LoginComponent {
         }
       }
     });
+  }
+
+  setCredentials(correo: string, contrasena: string) {
+    this.form.setValue({ correo, contrasena});
   }
 }

@@ -1,0 +1,25 @@
+ul{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#usuario{
+    justify-content: end;
+    align-items: end;
+    text-align: end;
+}
+
+.nav-item
+{
+    padding: 5px;
+}
+
+#usuario
+{
+    color: brown;
+}
+
+#cerrarSesion{
+    cursor: pointer;
+}
