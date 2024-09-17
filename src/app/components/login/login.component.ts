@@ -5,9 +5,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
-import { Firestore, collection, collectionData,setDoc, DocumentData, doc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData,setDoc, DocumentData, doc, Timestamp } from '@angular/fire/firestore';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
   formbuilder = inject(FormBuilder);
   router = inject(Router);
   authService = inject(AuthService);
+  firestoreService = inject(FirestoreService);
   hide = signal(true);
   errorFirebase : string | null = null;
 
@@ -38,7 +40,9 @@ export class LoginComponent {
     const rawForm = this.form.getRawValue();
     this.authService.login(rawForm.correo ,rawForm.contrasena)
     .subscribe({
-      next: () => {console.log('login exitoso'); this.router.navigateByUrl('/home');},
+      next: () => {
+        this.guardarLog(rawForm.correo);
+        this.router.navigateByUrl('/home');},
       error: (err) => {
         console.log(err.code);
         switch (err.code) {
@@ -54,5 +58,12 @@ export class LoginComponent {
 
   setCredentials(correo: string, contrasena: string) {
     this.form.setValue({ correo, contrasena});
+  }
+
+  guardarLog(correo_usuario: string)
+  {
+    let fecha_ingreso = new Date()
+    console.log('Inicio de sesion. Correo: ' + correo_usuario + ' | Fecha de ingreso: ' + fecha_ingreso);
+    this.firestoreService.guardarLog(correo_usuario, fecha_ingreso);
   }
 }
