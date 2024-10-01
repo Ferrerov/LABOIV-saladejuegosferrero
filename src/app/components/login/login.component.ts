@@ -16,7 +16,7 @@ import { FirestoreService } from '../../services/firestore.service';
   imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule, MatCardModule], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   formbuilder = inject(FormBuilder);
@@ -46,11 +46,11 @@ export class LoginComponent {
       error: (err) => {
         console.log(err.code);
         switch (err.code) {
-          case 'auth/email-already-in-use': this.errorFirebase = 'El correo ingresado ya existe';
+          case 'auth/invalid-credential': this.errorFirebase = 'El correo o la contraseña son incorrectas';
           break;
           case 'auth/invalid-email': this.errorFirebase = 'El correo ingresado no es valido';
           break;
-          default: 'Error al registrarse'
+          default: this.errorFirebase = 'Error al registrarse'
         }
       }
     });
@@ -62,7 +62,7 @@ export class LoginComponent {
 
   guardarLog(correo_usuario: string)
   {
-    let fecha_ingreso = new Date()
+    let fecha_ingreso = new Date();
     console.log('Inicio de sesion. Correo: ' + correo_usuario + ' | Fecha de ingreso: ' + fecha_ingreso);
     this.firestoreService.guardarLog(correo_usuario, fecha_ingreso);
   }

@@ -1,45 +1,49 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <h2>Registrarse</h2>
-    <mat-form-field appearance="outline">
-        <mat-label>Correo Electronico</mat-label>
-        <input matInput placeholder="Ingrese su correo" formControlName="correo">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-        @if (form.controls.correo.hasError('email') && !form.controls.correo.hasError('required')) {
-            <mat-error>Ingrese un correo valido</mat-error>
+<div class="container registro">
+    <mat-card>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h2>Registrarse</h2>
+        <mat-form-field appearance="outline">
+            <mat-label>Correo Electronico</mat-label>
+            <input matInput placeholder="Ingrese su correo" formControlName="correo">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+            @if (form.controls.correo.hasError('email') && !form.controls.correo.hasError('required')) {
+                <mat-error>Ingrese un correo valido</mat-error>
+            }
+            @if (form.controls.correo.hasError('required')) {
+            <mat-error>El correo es requerido</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre de Usuario</mat-label>
+            <input matInput placeholder="Ingrese un nombre de usuario" formControlName="usuario">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (form.controls.usuario.hasError('required')) {
+                <mat-error>El usuario es requerido</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" id="ultimo">
+            <mat-label>Contraseña</mat-label>
+            <input matInput [type]="hide() ? 'password' : 'text'" placeholder="Ingrese su contraseña" formControlName="contrasena"/>
+            <button
+                type="button"  
+                mat-icon-button
+                matSuffix
+                (click)="clickEvent($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()">
+                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if (form.controls.contrasena.hasError('pattern')) {
+                <mat-error>La contraseña debe contener al menos 8 caracteres, un caracter especial y una mayusacula.</mat-error>
+            }
+            @if (form.controls.contrasena.hasError('required')) {
+            <mat-error>La contraseña es requerida</mat-error>
+            }
+        </mat-form-field>
+        <button mat-flat-button type="submit" class="button" [disabled]="form.invalid">Registrarse</button>
+        @if (errorFirebase !== null) {
+            <mat-error id="errorFirebase">{{errorFirebase}}</mat-error>
         }
-        @if (form.controls.correo.hasError('required')) {
-        <mat-error>El correo es requerido</mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Nombre de Usuario</mat-label>
-        <input matInput placeholder="Ingrese un nombre de usuario" formControlName="usuario">
-        <mat-icon matSuffix>person</mat-icon>
-        @if (form.controls.usuario.hasError('required')) {
-            <mat-error>El usuario es requerido</mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field appearance="outline" id="ultimo">
-        <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" placeholder="Ingrese su contraseña" formControlName="contrasena"/>
-        <button
-            type="button"  
-            mat-icon-button
-            matSuffix
-            (click)="clickEvent($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()">
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        @if (form.controls.contrasena.hasError('pattern')) {
-            <mat-error>La contraseña debe contener al menos 8 caracteres, un caracter especial y una mayusacula.</mat-error>
-        }
-        @if (form.controls.contrasena.hasError('required')) {
-        <mat-error>La contraseña es requerida</mat-error>
-        }
-    </mat-form-field>
-    <button mat-flat-button type="submit" class="button" [disabled]="form.invalid">Registrarse</button>
-    @if (errorFirebase !== null) {
-        <mat-error id="errorFirebase">{{errorFirebase}}</mat-error>
-    }
-</form>
+        </form>
+    </mat-card>
+</div>

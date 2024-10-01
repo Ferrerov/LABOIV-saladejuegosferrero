@@ -60,10 +60,24 @@ mat-card{
     justify-content: center;
     align-items: center;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    //background-image: url('https://images.freejpg.com.ar/900/0704/winter-forest-trees-snow-blizzard-fog-grey-F100016497.jpg');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/saladejuegosferrero-12fef.appspot.com/o/wallhaven-4xpw3n.png?alt=media');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0%;
+    padding: 0%;
 }
 
 #enzo{
     background-color: red;
+}
+
+#inicioSesion
+{
+    padding-bottom: 20px;
+    padding-top: 20px;
 }

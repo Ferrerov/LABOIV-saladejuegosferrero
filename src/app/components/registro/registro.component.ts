@@ -8,11 +8,12 @@ import { FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angu
 import { Firestore, collection, collectionData,setDoc, DocumentData, doc } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule],
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule, MatCard],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss',
   //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +48,7 @@ export class RegistroComponent {
       error: (err) => {
         console.log(err.code);
         switch (err.code) {
-          case 'auth/email-already-in-use': this.errorFirebase = 'El correo ingresado ya existe';
+          case 'auth/email-already-in-use': this.errorFirebase = 'El correo ingresado ya esta registrado';
           break;
           case 'auth/invalid-email': this.errorFirebase = 'El correo ingresado no es valido';
           break;

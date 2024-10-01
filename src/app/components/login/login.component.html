@@ -1,44 +1,46 @@
-<div class="container" id="pagina">
+<div class="container-flex" id="pagina">
     <div class="container" id="formulario">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <h2>Iniciar Sesion</h2>
-        <mat-form-field appearance="outline">
-            <mat-label>Correo Electronico</mat-label>
-            <input matInput placeholder="Ingrese su correo" formControlName="correo">
-            <mat-icon matSuffix>alternate_email</mat-icon>
-            @if (form.controls.correo.hasError('email') && !form.controls.correo.hasError('required')) {
-                <mat-error>Ingrese un correo valido</mat-error>
-            }
-            @if (form.controls.correo.hasError('required')) {
-            <mat-error>El correo es requerido</mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field appearance="outline" id="ultimo">
-            <mat-label>Contraseña</mat-label>
-            <input matInput [type]="hide() ? 'password' : 'text'" formControlName="contrasena"/>
-            <button
-                type="button"  
-                mat-icon-button
-                matSuffix
-                (click)="clickEvent($event)"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide()"
-            >
-                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            @if (form.controls.contrasena.hasError('pattern')) {
-                <mat-error>La contraseña debe contener al menos 8 caracteres, un caracter especial y una mayusacula.</mat-error>
-            }
-            @if (form.controls.contrasena.hasError('required')) {
-            <mat-error>La contraseña es requerida</mat-error>
-            }
-        </mat-form-field>
-        <div class="col">
-            <div class="row">    <button class="button" type="submit" mat-stroked-button [disabled]="form.invalid">Iniciar Sesion</button></div>
-            <div class="row">o <br>Si no tenes una cuenta todavia...</div>
-            <div class="row">    <a class="button" mat-flat-button type="button" href="/registro" >Registrarse</a></div>
-        </div>
-    </form>
+        <mat-card appearance="outlined" id="inicioSesion">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <h2>Iniciar Sesion</h2>
+                <mat-form-field appearance="outline">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput placeholder="Ingrese su correo" formControlName="correo">
+                    <mat-icon matSuffix>alternate_email</mat-icon>
+                    @if (form.controls.correo.hasError('email') && !form.controls.correo.hasError('required')) {
+                        <mat-error>Ingrese un correo valido</mat-error>
+                    }
+                    @if (form.controls.correo.hasError('required')) {
+                    <mat-error>El correo es requerido</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field appearance="outline" id="ultimo">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput [type]="hide() ? 'password' : 'text'" formControlName="contrasena"/>
+                    <button
+                        type="button"  
+                        mat-icon-button
+                        matSuffix
+                        (click)="clickEvent($event)"
+                        [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide()"
+                    >
+                        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if (form.controls.contrasena.hasError('pattern')) {
+                        <mat-error>La contraseña debe contener al menos 8 caracteres, un caracter especial y una mayusacula.</mat-error>
+                    }
+                    @if (form.controls.contrasena.hasError('required')) {
+                    <mat-error>La contraseña es requerida</mat-error>
+                    }
+                </mat-form-field>
+                <button class="button" type="submit" mat-stroked-button [disabled]="form.invalid">Iniciar Sesion</button>
+                @if (errorFirebase !== null) {
+                    <mat-error id="errorFirebase">{{errorFirebase}}</mat-error>
+                }
+                
+            </form>
+        </mat-card>
     </div>
 
 
@@ -46,6 +48,8 @@
     <div class="container" id="usuariosPreestablecidos">
     <mat-card appearance="outlined">
         <mat-card-content>
+            <div class="row">Si aun no tenes cuenta...</div>
+            <div class="row">    <a class="button" mat-flat-button type="button" href="/registro" >Registrarse</a></div>
             <div class="row">O aun mejor!<br>Ingresa con una cuenta preestablecida...</div>
             <div class="row justify-content-evenly" id="accesoRapido">
                 <div class="col-4 mb-3">
