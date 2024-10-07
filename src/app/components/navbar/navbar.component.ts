@@ -9,7 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
+export class NavbarComponent{
 authService = inject(AuthService);
 
 logout(){

@@ -27,9 +27,6 @@
                     >
                         <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    @if (form.controls.contrasena.hasError('pattern')) {
-                        <mat-error>La contraseña debe contener al menos 8 caracteres, un caracter especial y una mayusacula.</mat-error>
-                    }
                     @if (form.controls.contrasena.hasError('required')) {
                     <mat-error>La contraseña es requerida</mat-error>
                     }

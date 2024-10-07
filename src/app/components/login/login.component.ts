@@ -28,7 +28,7 @@ export class LoginComponent {
 
   form = this.formbuilder.nonNullable.group({
     correo: ['', [Validators.required, Validators.email]],
-    contrasena: ['',[Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/),Validators.minLength(8),],]
+    contrasena: ['',[Validators.required]]
   });
 
   clickEvent(event: MouseEvent) {
@@ -45,13 +45,7 @@ export class LoginComponent {
         this.router.navigateByUrl('/home');},
       error: (err) => {
         console.log(err.code);
-        switch (err.code) {
-          case 'auth/invalid-credential': this.errorFirebase = 'El correo o la contraseña son incorrectas';
-          break;
-          case 'auth/invalid-email': this.errorFirebase = 'El correo ingresado no es valido';
-          break;
-          default: this.errorFirebase = 'Error al registrarse'
-        }
+        this.errorFirebase = 'Las credenciales no coinciden';
       }
     });
   }
