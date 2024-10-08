@@ -6,5 +6,6 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
   { path: 'registro', loadComponent: () => import('./components/registro/registro.component').then(m => m.RegistroComponent) },
   { path: 'quiensoy', loadComponent: () => import('./components/quiensoy/quiensoy.component').then(m => m.QuiensoyComponent) },
-  { path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent) },
+  { path: 'juegos', loadChildren: () => import('./juegos/juegos.module').then(m => m.JuegosModule) },
+  //{ path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent) },
 ];

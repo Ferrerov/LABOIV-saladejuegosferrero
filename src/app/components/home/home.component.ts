@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   router = inject(Router);
 
-  OnClickAhorcado(){
-    this.router.navigateByUrl('/ahorcado');
+  OnClickJuego(juego:string){
+    this.router.navigateByUrl('/juegos/' + juego);
   }
 }
