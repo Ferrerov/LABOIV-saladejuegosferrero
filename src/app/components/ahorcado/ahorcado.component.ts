@@ -29,15 +29,14 @@ export class AhorcadoComponent {
   public palabraSeleccionada: string[] = [];
   public palabraOculta: string[] = [];
   private errores: number = 0;
+  iniciado: boolean = false;
   victoria: boolean = false;
   derrota: boolean = false;
-
-  constructor() {
-    this.inicializarJuego();
-  }
+  private fechaInicio: Date | null = null;
 
   public inicializarJuego(): void {
     console.log("inicializar");
+    this.iniciado = true;
     const indiceAleatorio = Math.floor(Math.random() * this.palabras.length);
     this.palabraSeleccionada = this.palabras[indiceAleatorio];
     this.palabraOculta = Array(this.palabraSeleccionada.length).fill("_");
@@ -49,6 +48,7 @@ export class AhorcadoComponent {
     this.derrota = false;
     console.log('Palabra seleccionada: ' , this.palabraSeleccionada);
     console.log('Cant letras unicas: ' , this.cantLetrasUnicas);
+    this.fechaInicio = new Date();
   }
 
   public comprobarLetra(letra: string): void {
@@ -75,14 +75,30 @@ export class AhorcadoComponent {
     if(this.cantAciertos === this.cantLetrasUnicas)
     {
       this.victoria = true;
+      this.VerificarTiempoJuego();
     }
     else if(this.cantErrores === this.cantErroresMaximos){
       this.derrota = true;
+      this.VerificarTiempoJuego();
     }
   }
   OnClickBotonLetra(letra: string) {
     this.letrasDeshabilitadas[letra] = true;
     console.log(`Letra ${letra} deshabilitada`);
     this.comprobarLetra(letra);
+  }
+
+  VerificarTiempoJuego(): string{
+    const fechaFin:Date = new Date();
+    const tiempoTranscurrido = fechaFin.getTime() - this.fechaInicio!.getTime();
+    const minutos = Math.floor(tiempoTranscurrido / 60000);
+    const segundos = Math.floor((tiempoTranscurrido % 60000) / 1000);
+    const milisegundos = tiempoTranscurrido % 1000;
+    const minutosStr = minutos.toString().padStart(2, '0');
+    const segundosStr = segundos.toString().padStart(2, '0');
+    const milisegundosStr = milisegundos.toString().padStart(3, '0');
+    
+    console.log(`${minutosStr}:${segundosStr}:${milisegundosStr}`);
+    return `${minutosStr}:${segundosStr}:${milisegundosStr}`;
   }
 }

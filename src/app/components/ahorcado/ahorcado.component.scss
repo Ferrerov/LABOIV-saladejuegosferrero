@@ -1,3 +1,5 @@
+@-webkit-keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}}@keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}};
+
 #pagina{
     display: flex;
     flex-direction: column;
@@ -31,7 +33,7 @@ mat-grid-tile {
 }
 
 .btnLetra:enabled{
-    background-color: #a62639;
+    background-color: #D7263D;
     width: 100%;
     height: 100%;
     border-radius: 20%;
@@ -40,7 +42,7 @@ mat-grid-tile {
 }
 
 .btnLetra:disabled {
-    background-color: #8d8d8d;
+    background-color: #434343;
     opacity: 70%;
     width: 100%;
     height: 100%;
@@ -58,7 +60,7 @@ mat-grid-tile {
         width:30rem;
         *{
             fill:none;
-            stroke:#EEEEEE;
+            stroke:#F7F7F2;
             stroke-width:2;
             stroke-linecap:round;
             stroke-miterlimit:10;
@@ -78,55 +80,55 @@ mat-grid-tile {
     justify-content: center;
 
     span{
-        color: #FFFFFF;
+        color: #F7F7F2;
         font-size: 3rem;
         padding: 1%;
     }
 }
 
 
-.overlay {
+.overlay{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
     z-index: 1000;
-    color: #FFFFFF;
+    color: #F7F7F2;
     flex-direction: column;
     font-size: 6vw;
     padding-bottom: 8%;
 
     button{
-        height: 8%;
-        width: 20%;
-        background-color: rgba(255, 255, 255, 0.8);
+        width: 10vw;
+        height: 10vw;
+        background-color: #F7F7F2;
         font-size: 30%;
+        border-radius: 50%;
+        -webkit-animation:heartbeat 2s ease-in-out 1s infinite both;animation:heartbeat 2s ease-in-out 1s infinite both;
     }
-  }
-  
-  .overlay-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
   }
 
   .derrota{
-    background-color: rgba(214, 37, 37, 0.9);
+    background-color: rgba(214, 37, 37, 0.747);
     button{
         color: rgba(214, 37, 37);
     }
   }
 
   .victoria{
-    background-color: rgba(37, 214, 61, 0.9);
+    background-color: #63a46cce;
     button{
-        color: rgba(37, 214, 61);
+        color: #63A46C;
+    }
+  }
+
+  .inicio{
+    button{
+        color: #434343;
     }
   }
 
