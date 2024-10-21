@@ -23,7 +23,7 @@ export class FirestoreService {
   guardarMensaje(uidUsuario:string, mensaje:string){
     const mensajeCreado = {uidUsuario, mensaje};
 
-    addDoc(this.coleccionMensajes, mensajeCreado);
+    addDoc(this.coleccionMensajes, mensajeCreado); 
   }
 
   leerMensajes(){
