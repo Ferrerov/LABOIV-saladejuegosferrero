@@ -9,42 +9,118 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatButton, CommonModule],
   templateUrl: './preguntados.component.html',
-  styleUrl: './preguntados.component.scss'
+  styleUrl: './preguntados.component.scss',
 })
 export class PreguntadosComponent implements OnInit {
-  imagen:string = '';
+  imagen: string = '';
   apiService = inject(ApiService);
-  equipo: EquipoInterface | null= null;
+  equipo: EquipoInterface | null = null;
+  equipoNuevo: EquipoInterface | null = null;
   comenzo: boolean = false;
-  pregunta: string = '¿A que equipo pertenece este escudo?';
+  pregunta: string = '¿A qué equipo pertenece este escudo?';
   equipos: string[] = [
-    'Arsenal', 'Manchester_United', 'Liverpool', 'Chelsea', 'Tottenham',
-    'Real_Madrid', 'Barcelona', 'Atletico_Madrid', 'Sevilla', 'Valencia',
-    'Juventus', 'AC_Milan', 'Roma', 'Napoli', 'Marseille', 'Lyon', 'Monaco', 'Lille',
-    'Boca_Juniors', 'River_Plate', 'Flamengo', 'Palmeiras', 'Santos',
-    'Corinthians', 'Sao_Paulo', 'Gremio', 'Internacional', 'Cruzeiro',
-    'Nacional', 'Peñarol', 'Independiente', 'Racing_Club', 'San_Lorenzo'
+    'Arsenal',
+    'Manchester_United',
+    'Liverpool',
+    'Chelsea',
+    'Tottenham',
+    'Real_Madrid',
+    'Barcelona',
+    'Atletico_Madrid',
+    'Sevilla',
+    'Valencia',
+    'Juventus',
+    'AC_Milan',
+    'Roma',
+    'Napoli',
+    'Marseille',
+    'Lyon',
+    'Monaco',
+    'Lille',
+    'Boca_Juniors',
+    'River_Plate',
+    'Flamengo',
+    'Palmeiras',
+    'Santos',
+    'Corinthians',
+    'Sao_Paulo',
+    'Gremio',
+    'Internacional',
+    'Cruzeiro',
+    'Nacional',
+    'Peñarol',
+    'Independiente',
+    'Racing_Club',
+    'San_Lorenzo',
   ];
   opciones: string[] = [];
   respuestaCorrecta: string = '';
   vidas: number = 4;
   puntos: number = 0;
+  nuevaImagen: string = '';
+  nuevasOpciones: string[] = [];
+  nuevaRespuestaCorrecta: string = '';
 
-  ngOnInit(): void {
-    
-  }
-  comenzarJuego(){
-    this.comenzo = true;
-    this.seleccionarEquipo();
-  }
+  ngOnInit(): void {}
 
-  seleccionarEquipo()
-  {
+  setearVariables() {
+    this.imagen = '';
+    this.equipo = null;
+    this.equipoNuevo = null;
+    this.comenzo = false;
+    this.equipos = [
+      'Arsenal',
+      'Manchester_United',
+      'Liverpool',
+      'Chelsea',
+      'Tottenham',
+      'Real_Madrid',
+      'Barcelona',
+      'Atletico_Madrid',
+      'Sevilla',
+      'Valencia',
+      'Juventus',
+      'AC_Milan',
+      'Roma',
+      'Napoli',
+      'Marseille',
+      'Lyon',
+      'Monaco',
+      'Lille',
+      'Boca_Juniors',
+      'River_Plate',
+      'Flamengo',
+      'Palmeiras',
+      'Santos',
+      'Corinthians',
+      'Sao_Paulo',
+      'Gremio',
+      'Internacional',
+      'Cruzeiro',
+      'Nacional',
+      'Peñarol',
+      'Independiente',
+      'Racing_Club',
+      'San_Lorenzo',
+    ];
+    this.opciones = [];
+    this.respuestaCorrecta = '';
+    this.vidas = 4;
+    this.puntos = 0;
+    this.nuevaImagen = '';
+    this.nuevasOpciones = [];
+    this.nuevaRespuestaCorrecta = '';
+  }
+  comenzarJuego() {
+    this.setearVariables();
+    this.seleccionarPrimerEquipo();
+  }
+  seleccionarPrimerEquipo() {
     const indiceCorrecto = Math.floor(Math.random() * this.equipos.length);
+    const opcionesIncorrectas: string[] = [];
     this.respuestaCorrecta = this.equipos[indiceCorrecto];
     this.equipos.splice(indiceCorrecto, 1);
 
-    const opcionesIncorrectas: string[] = [];
     while (opcionesIncorrectas.length < 2) {
       const indice = Math.floor(Math.random() * this.equipos.length);
       const equipo = this.equipos[indice];
@@ -53,51 +129,94 @@ export class PreguntadosComponent implements OnInit {
       }
     }
 
-    this.opciones = [this.respuestaCorrecta, ...opcionesIncorrectas].sort(() => Math.random() - 0.5);
+    this.opciones = [this.respuestaCorrecta, ...opcionesIncorrectas].sort(
+      () => Math.random() - 0.5
+    );
     this.obtenerEquipo(this.respuestaCorrecta);
   }
 
-  obtenerEquipo(equipo:string){
-    this.apiService.getEquipo(equipo).subscribe(equipos => {
-      console.log(equipos);
-      this.equipo = equipos[0];
-      this.imagen = equipos[0].strBadge;
-      console.log(this.equipo);
+  seleccionarEquipo() {
+    const opcionesIncorrectas: string[] = [];
+    const indiceCorrecto = Math.floor(Math.random() * this.equipos.length);
+
+    if (this.equipos.length < 3) {
+      console.error('No hay suficientes equipos para continuar el juego.');
+      return;
+    }
+    this.nuevaRespuestaCorrecta = this.equipos[indiceCorrecto];
+    this.equipos.splice(indiceCorrecto, 1);
+    while (opcionesIncorrectas.length < 2) {
+      const indice = Math.floor(Math.random() * this.equipos.length);
+      const equipo = this.equipos[indice];
+      if (!opcionesIncorrectas.includes(equipo)) {
+        opcionesIncorrectas.push(equipo);
+      }
+    }
+
+    this.nuevasOpciones = [
+      this.nuevaRespuestaCorrecta,
+      ...opcionesIncorrectas,
+    ].sort(() => Math.random() - 0.5);
+    this.obtenerEquipo(this.nuevaRespuestaCorrecta);
+  }
+
+  obtenerEquipo(equipo: string) {
+    this.apiService.getEquipo(equipo).subscribe((equipos) => {
+      if (equipos && equipos.length > 0) {
+        this.equipoNuevo = equipos[0];
+        this.nuevaImagen = equipos[0].strBadge;
+        if (!this.comenzo) {
+          this.imagen = equipos[0].strBadge;
+          console.log(equipos[0].strBadge);
+          this.comenzo = true;
+          this.seleccionarEquipo();
+        }
+      } else {
+        console.error('No se encontro el equipo: ' + equipo);
+      }
     });
   }
 
   seleccionarOpcion(opcion: string, event: Event) {
     const botonSeleccionado = event.currentTarget as HTMLButtonElement;
-    console.log('Opción seleccionada: ' + opcion);
-    console.log('Opción correcta: ' + this.respuestaCorrecta);
-  
     const botonesOpciones = document.querySelectorAll('.opcion button');
     botonesOpciones.forEach((boton: Element) => {
       (boton as HTMLButtonElement).disabled = true;
     });
+
     if (opcion === this.respuestaCorrecta) {
       botonSeleccionado.classList.add('correcta');
       this.puntos++;
     } else {
       botonSeleccionado.classList.add('incorrecta');
       this.vidas--;
-  
-      const botonesOpciones = document.querySelectorAll('.opcion button');
       botonesOpciones.forEach((boton: Element) => {
-        if (boton.textContent?.trim() === this.respuestaCorrecta.replace('_', ' ')) {
+        if (
+          boton.textContent?.trim() === this.respuestaCorrecta.replace('_', ' ')
+        ) {
           boton.classList.add('correcta');
         }
       });
     }
-  
+
     setTimeout(() => {
-      botonSeleccionado.classList.remove('correcta', 'incorrecta'); 
-      const botonesOpciones = document.querySelectorAll('.opcion button');
+      botonSeleccionado.classList.remove('correcta', 'incorrecta');
       botonesOpciones.forEach((boton: Element) => {
         boton.classList.remove('correcta', 'incorrecta');
         (boton as HTMLButtonElement).disabled = false;
       });
-      this.seleccionarEquipo();
+
+      this.respuestaCorrecta = this.nuevaRespuestaCorrecta;
+      this.opciones = [...this.nuevasOpciones];
+      this.imagen = this.nuevaImagen;
+
+      if(this.vidas == 0)
+      {
+        this.comenzo = false;
+      }
+      else{
+        this.seleccionarEquipo();
+      }
     }, 2500);
   }
 }
