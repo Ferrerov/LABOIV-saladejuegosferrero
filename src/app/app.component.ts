@@ -16,6 +16,7 @@ import { ChatComponent } from './components/chat/chat.component';
 export class AppComponent implements OnInit{
   title = 'Sala de Juegos - Ferrero';
   authService = inject(AuthService);
+  usuarioActual:string | null = null;
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user: User | null) =>{
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit{
           usuario: user.displayName!,
           uid: user.uid!
         });
+        this.usuarioActual = user.displayName;
       }
       else
       {

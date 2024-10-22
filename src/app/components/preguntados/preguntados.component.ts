@@ -1,13 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { EquipoInterface } from '../../interfaces/equipo.interface';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatFabButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
+import { MatIcon } from '@angular/material/icon';
+import { TablapuntajeComponent } from '../tablapuntaje/tablapuntaje.component';
 
 @Component({
   selector: 'app-preguntados',
   standalone: true,
-  imports: [MatButton, CommonModule],
+  imports: [MatButton, CommonModule, MatIcon, MatFabButton, TablapuntajeComponent],
   templateUrl: './preguntados.component.html',
   styleUrl: './preguntados.component.scss',
 })
@@ -60,6 +64,10 @@ export class PreguntadosComponent implements OnInit {
   nuevaImagen: string = '';
   nuevasOpciones: string[] = [];
   nuevaRespuestaCorrecta: string = '';
+  firestore = inject(FirestoreService);
+  authService = inject(AuthService);
+  juego:string = 'preguntados';
+  verPuntajes: boolean = false;
 
   ngOnInit(): void {}
 
@@ -212,11 +220,20 @@ export class PreguntadosComponent implements OnInit {
 
       if(this.vidas == 0)
       {
+        this.guardarResultados();
         this.comenzo = false;
       }
       else{
         this.seleccionarEquipo();
       }
     }, 2500);
+  }
+
+  guardarResultados(){
+    this.firestore.addResultado(this.authService.currentUserSig()!.usuario, 'preguntados', this.puntos, 'desc');
+  }
+
+  verVentana(ver: boolean) {
+    this.verPuntajes = ver;
   }
 }

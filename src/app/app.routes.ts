@@ -7,5 +7,6 @@ export const routes: Routes = [
   { path: 'registro', loadComponent: () => import('./components/registro/registro.component').then(m => m.RegistroComponent) },
   { path: 'quiensoy', loadComponent: () => import('./components/quiensoy/quiensoy.component').then(m => m.QuiensoyComponent) },
   { path: 'juegos', loadChildren: () => import('./juegos/juegos.module').then(m => m.JuegosModule) },
+  { path: 'encuesta', loadComponent: () => import('./components/encuesta/encuesta.component').then(m => m.EncuestaComponent) },
   //{ path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent) },
 ];

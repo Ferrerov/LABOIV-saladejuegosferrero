@@ -1,6 +1,6 @@
 <div class="container-flex" id="pagina">
   <div class="row">
-    <div class="carta col" [ngClass]="{'animacion-activa': animacionActiva}">
+    <div class="carta col" [ngClass]="{ 'animacion-activa': animacionActiva }">
       <mat-card>
         <img src="{{ imagenCarta }}" />
       </mat-card>
@@ -13,10 +13,10 @@
           <span>Comenzar</span>
         </button>
         } @else{
-          <button class="comenzar" mat-fab extended (click)="darDeNuevo()">
-            <mat-icon fontSet="material-symbols-outlined">playing_cards</mat-icon>
-            <span>Dar de nuevo</span>
-          </button>
+        <button class="comenzar" mat-fab extended (click)="darDeNuevo()">
+          <mat-icon fontSet="material-symbols-outlined">playing_cards</mat-icon>
+          <span>Dar de nuevo</span>
+        </button>
         } } @else {
         <button mat-fab extended (click)="predecirValor('mayor')">
           <mat-icon>arrow_upward</mat-icon>
@@ -155,4 +155,14 @@
       </div>
     </div>
   </div>
+  <div class="puntaje-historico">
+    <button mat-fab extended class="boton-puntaje" (click)="verVentana(true)">
+    <mat-icon class="icono-puntaje">menu</mat-icon>
+    Puntajes
+    </button>
+  </div>
+  @if(verPuntajes)
+  {
+    <app-tablapuntaje (ver)="verVentana($event)" [puntajeRequerido]="'mayormenor'" [ordenPuntos]="'desc'" [tipoPuntaje]="'aciertos'"></app-tablapuntaje>
+  }
 </div>

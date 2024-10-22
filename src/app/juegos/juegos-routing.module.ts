@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AhorcadoComponent } from '../components/ahorcado/ahorcado.component';
-import { PreguntadosComponent } from '../components/preguntados/preguntados.component';
-import { JuegodelquinceComponent } from '../components/juegodelquince/juegodelquince.component';
 
 
 const routes: Routes = [

@@ -23,6 +23,11 @@
           <li class="nav-item">
             <a class="nav-link" href="/quiensoy">Quien soy</a>
           </li>
+          @if(authService.currentUserSig()){
+          <li class="nav-item">
+            <a class="nav-link" href="/encuesta">Encuesta</a>
+          </li>
+          }
         </ul>
         @if(authService.currentUserSig())
         {

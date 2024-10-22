@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Observable, Subject, timer, takeUntil, map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
+import { TablapuntajeComponent } from '../tablapuntaje/tablapuntaje.component';
 
 @Component({
   selector: 'app-juegodelquince',
   standalone: true,
-  imports: [MatButton, MatFabButton, MatIcon, AsyncPipe],
+  imports: [MatButton, MatFabButton, MatIcon, AsyncPipe, CommonModule, TablapuntajeComponent],
   templateUrl: './juegodelquince.component.html',
   styleUrls: ['./juegodelquince.component.scss']
 })
@@ -15,12 +19,18 @@ export class JuegodelquinceComponent {
   grilla = [
     [1, 1, 1],
     [1, 1, 1],
-    [0, 1, 1],
+    [1, 1, 0],
   ];
   esManual:boolean = true;
   movimientos:number = 0;
   stop$ = new Subject<boolean>();
   timer$: Observable<string> | undefined;
+  comenzo: boolean = false;
+  ganador:boolean = false;
+  firestore = inject(FirestoreService);
+  authService = inject(AuthService);
+  verPuntajes:boolean = true;
+  
 
   iniciarCronometro() {
     this.timer$ = timer(0, 10).pipe( 
@@ -32,6 +42,7 @@ export class JuegodelquinceComponent {
   frenarCronometro()
   {
     this.stop$.next(true);
+    console.log(this.timer$);
   }
 
   formatearTiempo(ms: number): string {
@@ -46,11 +57,11 @@ export class JuegodelquinceComponent {
 
   onClick(e: Event): void {
     const unaFicha = e.target as HTMLElement;
-    console.log(unaFicha);
+    //console.log(unaFicha);
     const fila = Number(unaFicha.id[0]);
-    console.log(fila);
+    //console.log(fila);
     const columna = Number(unaFicha.id[1]);
-    console.log(columna);
+    //console.log(columna);
 
     this.modificarEstadoFichas('none');
 
@@ -72,9 +83,11 @@ export class JuegodelquinceComponent {
     setTimeout(() => {
       this.modificarEstadoFichas('all');
     }, 300);
-    if (this.esManual) {
-      this.movimientos++;
-      this.verificarVictoria();
+    if (this.esManual && this.comenzo) {
+      if(!this.ganador)
+      {
+        this.verificarVictoria();
+      }
     }
   }
 
@@ -87,10 +100,12 @@ export class JuegodelquinceComponent {
     unaFicha.id = '' + filaObjetivo + columnaObjetivo;
     this.grilla[filaObjetivo][columnaObjetivo] = 1;
     this.grilla[filaActual][columnaActual] = 0;
+    if(this.esManual) this.movimientos++;
   }
 
   mezclar(): void {
     this.movimientos = 0;
+    this.ganador = false;
     for (let i = 0; i < 200; i++) {
       setTimeout(() => {
         this.moverAleatorio();
@@ -98,6 +113,7 @@ export class JuegodelquinceComponent {
         {
           this.esManual = true;
           this.reactivarTransicion();
+          this.comenzo = true;
         }
       }, 100);
     }
@@ -143,19 +159,14 @@ export class JuegodelquinceComponent {
       [1, 1, 1],
       [1, 1, 0],
     ];
-      console.log('verificando');
-      let ganado = true;
-      for (let fila = 0; fila < 3; fila++) {
-        for (let columna = 0; columna < 3; columna++) {
-          if (this.grilla[fila][columna] !== estadoGanador[fila][columna]) {
-            ganado = false;
-            break;
-          }
-        }
-      }
-  
+      //console.log('verificando');
+      let ganado = this.validarOrden();
+
       if (ganado) {
+        this.guardarResultados();
+        this.ganador = ganado;
         console.log('¡Ganaste!');
+        this.frenarCronometro();
       }
   }
 
@@ -174,5 +185,37 @@ export class JuegodelquinceComponent {
     fichas.forEach((ficha: Element) => {
       (ficha as HTMLElement).style.pointerEvents = estado;
     });
+  }
+
+  validarOrden(): boolean {
+    const fichas = document.querySelectorAll('.ficha');
+    let ordenado = true;
+  
+    fichas.forEach(ficha => {
+      const fichaElement = ficha as HTMLElement;
+      const fichaId = fichaElement.id;
+      const primeraClase = fichaElement.classList[0];
+  
+      if (fichaId !== primeraClase) {
+        ordenado = false;
+        return;
+      }
+    });
+  
+    if (ordenado) {
+      //console.log('Las fichas estan ordenadas');
+      return true;
+    } else {
+      //console.log('Las fichas no estan ordenadas');
+      return false;
+    }
+  }
+
+  guardarResultados(){
+    this.firestore.addResultado(this.authService.currentUserSig()!.usuario, 'juegodelocho', this.movimientos, 'asc');
+  }
+
+  verVentana(ver: boolean) {
+    this.verPuntajes = ver;
   }
 }

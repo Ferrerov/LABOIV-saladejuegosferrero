@@ -3,6 +3,8 @@ import { addDoc, collection, Firestore, getDocs, doc, collectionData, Timestamp 
 import { LogIngresoInterface } from '../interfaces/logIngreso.interface';
 import { from, Observable } from 'rxjs';
 import { MensajeInterface } from '../interfaces/mensaje.interface';
+import { ResultadoInterface } from '../interfaces/resultado.interface';
+import { EncuestaInterface } from '../interfaces/encuesta.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,8 @@ export class FirestoreService {
   firestore = inject(Firestore);
   coleccionLogs = collection(this.firestore, 'log_ingreso');
   coleccionMensajes = collection(this.firestore, 'mensajes');
+  coleccionResultados = collection(this.firestore, 'resultados');
+  coleccionEncuestas = collection(this.firestore, 'encuestas');
   //mensajesRef = doc(this.firestore, 'mensajes');
   mensajesSig = signal<MensajeInterface[]>([]);
 
@@ -46,4 +50,21 @@ export class FirestoreService {
     return from(promesa);
   }
 
+  getResultados():Observable<ResultadoInterface[]>{
+    return collectionData(this.coleccionResultados) as Observable<ResultadoInterface[]>;
+  }
+  addResultado(usuario:string, juego: string, puntaje: number, orden:string):Observable<string>{
+    let fecha_jugado = new Date();
+    const resultadoCreado = {usuario, juego ,puntaje, fecha_jugado, orden};
+    const promesa = addDoc(this.coleccionResultados, resultadoCreado).then((response) => response.id);
+    return from(promesa);
+  }
+
+  addEncuesta(uid:string, nombre: string, apellido: string, edad: number, telefono:string, calidadJuegos:string, juegosSeleccionados:string[], sugerencia:string):Observable<string>{
+    let fecha_creada = new Date();
+    const encuestaCreada = {uid, nombre ,apellido, edad, telefono, calidadJuegos,juegosSeleccionados,sugerencia, fecha_creada};
+    const promesa = addDoc(this.coleccionEncuestas, encuestaCreada).then((response) => response.id);
+    return from(promesa);
+  }
 }
+ 

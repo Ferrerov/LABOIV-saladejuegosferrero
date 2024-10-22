@@ -5,12 +5,15 @@ import { MatIcon } from '@angular/material/icon';
 import { CartaInterface, MazoCartasInterface } from '../../interfaces/carta.interface';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
+import { TablapuntajeComponent } from '../tablapuntaje/tablapuntaje.component';
 
 
 @Component({
   selector: 'app-mayormenor',
   standalone: true,
-  imports: [MatCard, MatButton, MatFabButton, MatIcon, CommonModule],
+  imports: [MatCard, MatButton, MatFabButton, MatIcon, CommonModule, TablapuntajeComponent],
   templateUrl: './mayormenor.component.html',
   styleUrl: './mayormenor.component.scss'
 })
@@ -24,6 +27,9 @@ export class MayormenorComponent implements OnInit{
   vidas: number = 4;
   primeraCartaDada: boolean = false;
   animacionActiva: boolean = false;
+  firestore = inject(FirestoreService);
+  authService = inject(AuthService);
+  verPuntajes: boolean = false;
 
   ngOnInit(): void {
     this.obtenerMazo();
@@ -81,6 +87,7 @@ export class MayormenorComponent implements OnInit{
         }
         if(this.vidas == 0)
         {
+          this.guardarResultados();
           setTimeout(()=>{
             this.imagenCarta = "https://www.deckofcardsapi.com/static/img/back.png";
             this.activarAnimacion();
@@ -104,5 +111,13 @@ export class MayormenorComponent implements OnInit{
     setTimeout(() => {
       this.animacionActiva = false;
     }, 500); // La duración de la animación es de 0.5s
+  }
+
+  guardarResultados(){
+    this.firestore.addResultado(this.authService.currentUserSig()!.usuario, 'mayormenor', this.puntos, 'desc');
+  }
+
+  verVentana(ver: boolean) {
+    this.verPuntajes = ver;
   }
 }

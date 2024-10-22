@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { FirestoreService } from '../../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
+import { MatIcon } from '@angular/material/icon';
+import { TablapuntajeComponent } from '../tablapuntaje/tablapuntaje.component';
 
 @Component({
   selector: 'app-ahorcado',
   standalone: true,
-  imports: [MatGridListModule, MatButtonModule, CommonModule],
+  imports: [MatGridListModule, MatButtonModule, CommonModule, MatIcon, TablapuntajeComponent],
   templateUrl: './ahorcado.component.html',
   styleUrl: './ahorcado.component.scss'
 })
@@ -33,6 +37,9 @@ export class AhorcadoComponent {
   victoria: boolean = false;
   derrota: boolean = false;
   private fechaInicio: Date | null = null;
+  firestore = inject(FirestoreService);
+  authService = inject(AuthService);
+  verPuntajes: boolean = false;
 
   public inicializarJuego(): void {
     console.log("inicializar");
@@ -75,6 +82,7 @@ export class AhorcadoComponent {
     if(this.cantAciertos === this.cantLetrasUnicas)
     {
       this.victoria = true;
+      this.guardarResultados();
       this.VerificarTiempoJuego();
     }
     else if(this.cantErrores === this.cantErroresMaximos){
@@ -100,5 +108,13 @@ export class AhorcadoComponent {
     
     console.log(`${minutosStr}:${segundosStr}:${milisegundosStr}`);
     return `${minutosStr}:${segundosStr}:${milisegundosStr}`;
+  }
+
+  guardarResultados(){
+    this.firestore.addResultado(this.authService.currentUserSig()!.usuario, 'ahorcado', this.cantErrores, 'asc');
+  }
+
+  verVentana(ver: boolean) {
+    this.verPuntajes = ver;
   }
 }
