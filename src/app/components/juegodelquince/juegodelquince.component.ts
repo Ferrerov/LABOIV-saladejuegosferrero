@@ -29,7 +29,7 @@ export class JuegodelquinceComponent {
   ganador:boolean = false;
   firestore = inject(FirestoreService);
   authService = inject(AuthService);
-  verPuntajes:boolean = true;
+  verPuntajes:boolean = false;
   
 
   iniciarCronometro() {
