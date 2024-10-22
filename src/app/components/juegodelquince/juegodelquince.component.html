@@ -1,1 +1,36 @@
-<p>juegodelquince works!</p>
+<div class="pagina">
+    <div class="juego">
+        <div class="container" (click)="onClick($event)">
+            <div id="00" class="ficha uno">1</div>
+            <div id="01" class="ficha dos">2</div>
+            <div id="02" class="ficha tres">3</div>
+            <div id="10" class="ficha cuatro">4</div>
+            <div id="11" class="ficha cinco">5</div>
+            <div id="12" class="ficha seis">6</div>
+            <div id="21" class="ficha siete">7</div>
+            <div id="22" class="ficha ocho">8</div>
+        </div>
+        <!-- <button (click)="mezclar()">Mezclar</button> -->
+    </div>
+    <div class="interfaz">
+        <div class="boton">
+            <button class="comenzar" mat-fab extended (click)="mezclar();iniciarCronometro()">
+                <mat-icon fontSet="material-symbols-outlined">playing_cards</mat-icon>
+                <span>Mezclar</span>
+            </button>
+        </div>
+        <div class="puntaje">
+            <div class="movimientos">
+                <span>Movimientos: {{movimientos}}</span>
+            </div>
+            <div class="tiempo">
+                @if (timer$) {
+                    <span>Tiempo: {{ timer$ | async }}</span><br>
+                }
+                @else {
+                    <span>Tiempo: 00:00</span><br>
+                }
+            </div>
+        </div>
+    </div>
+</div>
